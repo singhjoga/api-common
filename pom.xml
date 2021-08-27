@@ -9,11 +9,11 @@
 		<version>2.4.5</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.spydermama.api</groupId>
-	<artifactId>sm-api</artifactId>
+	<groupId>com.technovator.api</groupId>
+	<artifactId>api-common</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sm-api</name>
-	<description>API for Spyder Mama</description>
+	<name>api-common</name>
+	<description>Common classes for APIs</description>
 	<properties>
 		<java.version>11</java.version>
 		<springfox-swagger-version>3.0.0</springfox-swagger-version>
