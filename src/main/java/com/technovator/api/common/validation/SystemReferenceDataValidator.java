@@ -5,7 +5,6 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import com.technovator.api.common.annotations.SystemReferenceData;
-import com.technovator.api.common.constants.SystemReferenceDataType;
 import com.technovator.api.common.db.EntityManagerProvider;
 import com.technovator.api.common.refdata.RefData;
 
@@ -22,13 +21,13 @@ public class SystemReferenceDataValidator implements ConstraintValidator<SystemR
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		if (value==null) return true;
-		SystemReferenceDataType type = annotation.value();
+		String type = annotation.value();
 	    EntityManager em = EntityManagerProvider.getEntityManager();
 	    RefData result=em.find(RefData.class, value);
 	    if (result==null) {
 	    	return false;
 	    }
-	    return result.getTypeId().equals(type.getCode());
+	    return result.getTypeId().equals(type);
 	}
 
 }

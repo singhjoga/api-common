@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.technovator.api.common.constants.SystemReferenceDataType;
 import com.technovator.api.common.validation.SystemReferenceDataValidator;
 
 @Target({ElementType.FIELD})
@@ -19,7 +18,7 @@ import com.technovator.api.common.validation.SystemReferenceDataValidator;
 @Documented
 @Constraint(validatedBy = SystemReferenceDataValidator.class)
 public @interface SystemReferenceData {
-  SystemReferenceDataType value();
+  String value();
   String message() default "System Reference data for type '{value}' not found for '${validatedValue}'";
   Class<?>[] groups() default { };
   Class<? extends Payload>[] payload() default {};
