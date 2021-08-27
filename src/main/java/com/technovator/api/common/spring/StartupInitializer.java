@@ -11,14 +11,14 @@ import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
 import org.springframework.stereotype.Component;
 
-import com.technovator.api.common.cache.StaticCache;
+import com.technovator.api.common.cache.EntityReferenceCache;
 
 @Component
 public class StartupInitializer implements ApplicationListener<ApplicationContextEvent>{
 	private static final Logger LOG = LoggerFactory.getLogger(StartupInitializer.class);
 
 	@Autowired
-	private StaticCache cache;
+	private EntityReferenceCache cache;
 	
 	@Override
 	public void onApplicationEvent(ApplicationContextEvent event) {

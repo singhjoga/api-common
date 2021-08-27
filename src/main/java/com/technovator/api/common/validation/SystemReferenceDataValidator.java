@@ -4,8 +4,8 @@ import javax.persistence.EntityManager;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.spydermama.api.system.constants.SystemReferenceDataType;
 import com.technovator.api.common.annotations.SystemReferenceData;
+import com.technovator.api.common.constants.SystemReferenceDataType;
 import com.technovator.api.common.db.EntityManagerProvider;
 import com.technovator.api.common.refdata.RefData;
 

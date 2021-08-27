@@ -37,7 +37,7 @@ import com.technovator.api.common.auditlog.Auditable;
 import com.technovator.api.common.auditlog.AuditableChild;
 import com.technovator.api.common.auditlog.AuditableMain;
 import com.technovator.api.common.auditlog.AuditableReference;
-import com.technovator.api.common.cache.EntityReferenceCache.EntityReferenceCacheEntry;
+import com.technovator.api.common.cache.EntityCacheReference.EntityReferenceCacheEntry;
 import com.technovator.api.common.constants.Actions;
 import com.technovator.api.common.constants.OperationGroups;
 import com.technovator.api.common.constants.Actions.Crud;

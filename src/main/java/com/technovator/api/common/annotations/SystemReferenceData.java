@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.spydermama.api.system.constants.SystemReferenceDataType;
+import com.technovator.api.common.constants.SystemReferenceDataType;
 import com.technovator.api.common.validation.SystemReferenceDataValidator;
 
 @Target({ElementType.FIELD})
