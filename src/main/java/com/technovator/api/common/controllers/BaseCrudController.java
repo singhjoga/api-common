@@ -23,27 +23,27 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ExampleProperty;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Authorization
 public class BaseCrudController<T extends IdentifiableEntity<ID>, ID extends Serializable> extends BaseController {
-	
+
 	private BaseCrudService<T, ID> service;
+	private Class<T> cls;
 	public BaseCrudController(BaseCrudService<T, ID> service) {
 		super();
 		this.service = service;
 	}
+
 	@RequestMapping(method = RequestMethod.POST)
 	@Authorization(action = Actions.Crud.Add)
-	@ApiOperation( value = "Add a new resource")
-	/*
+	@ApiOperation(value = "Add a new resource")
 	@ApiResponses(value = {
-	        @ApiResponse(code=HttpStatus.SC_BAD_REQUEST, message = "Bad request", response = ErrorResponse.class,
-	        examples = @io.swagger.annotations.Example(
-	        	            value = {
-	        	                @ExampleProperty(value = "{'property': 'test'}", mediaType = "application/json")
-	        	            }))
-	        })
-	        */
+			@ApiResponse(code = HttpStatus.SC_BAD_REQUEST, message = "Bad request", response = ErrorResponse.class, 
+					examples = @io.swagger.annotations.Example(value = {
+					@ExampleProperty(value = "{'property': 'test'}", mediaType = "application/json") })) })
+
 	@ResponseBody
 	public ResponseEntity<AddResponse> add(@JsonView(value = Views.Add.class) @RequestBody T obj) {
 		T saved = service.add(obj);
@@ -53,7 +53,7 @@ public class BaseCrudController<T extends IdentifiableEntity<ID>, ID extends Ser
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	@Authorization(action = Actions.Crud.View)
 	@JsonView(value = Views.View.class)
-	@ApiOperation( value = "Get an existing resource by ID. Not Found error is thrown if the resource is not found")
+	@ApiOperation(value = "Get an existing resource by ID. Not Found error is thrown if the resource is not found")
 	@ResponseBody
 	public ResponseEntity<T> getOne(@PathVariable ID id) {
 		return ResponseEntity.ok(service.getById(id));
@@ -61,7 +61,7 @@ public class BaseCrudController<T extends IdentifiableEntity<ID>, ID extends Ser
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
 	@Authorization(action = Actions.Crud.Update)
-	@ApiOperation( value = "Update an existing resource")
+	@ApiOperation(value = "Update an existing resource")
 	@ResponseBody
 	public ResponseEntity<Void> update(@PathVariable ID id, @JsonView(value = Views.Update.class) @RequestBody T obj) {
 		service.update(id, obj);
@@ -70,12 +70,11 @@ public class BaseCrudController<T extends IdentifiableEntity<ID>, ID extends Ser
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
 	@Authorization(action = Actions.Crud.Delete)
-	@ApiOperation( value = "Delete an existing resource. Validation error is returned if it is referenced in other resources")
+	@ApiOperation(value = "Delete an existing resource. Validation error is returned if it is referenced in other resources")
 	@ResponseBody
 	public ResponseEntity<Void> delete(@PathVariable ID id) {
 		service.delete(id);
 		return okResponse();
 	}
-	
-	
+
 }

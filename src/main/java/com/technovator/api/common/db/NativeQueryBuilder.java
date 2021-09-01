@@ -138,6 +138,12 @@ public class NativeQueryBuilder {
 		//LOG.info("IN Clause="+sb.toString());
 		return sb.toString();
 	}
+	public <T> List<T> getResultList(EntityManager em, Class<?> resultClass) {
+		javax.persistence.Query query = buildNativeQuery(EntityManagerProvider.getEntityManager(), resultClass);
+		List<T> result = query.getResultList();
+		
+		return result;
+	}
 	private void addFilter(StringBuilder sb, Object value, String fieldName,String op) {
 		if (value == null) return;
 		String operator=op;

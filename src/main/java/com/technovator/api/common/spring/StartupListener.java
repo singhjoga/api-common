@@ -11,24 +11,26 @@ import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
 import org.springframework.stereotype.Component;
 
-import com.technovator.api.common.cache.EntityReferenceCache;
-
 @Component
-public class StartupInitializer implements ApplicationListener<ApplicationContextEvent>{
-	private static final Logger LOG = LoggerFactory.getLogger(StartupInitializer.class);
+public class StartupListener implements ApplicationListener<ApplicationContextEvent>{
+	private static final Logger LOG = LoggerFactory.getLogger(StartupListener.class);
+	@Autowired
+	private CommonAppInitializer commonInitializer;
 
 	@Autowired
-	private EntityReferenceCache cache;
+	private CommonAppInitializer appInitializer;
 	
 	@Override
 	public void onApplicationEvent(ApplicationContextEvent event) {
 		if (event instanceof ContextRefreshedEvent) {
 			LOG.info("Initializing application...");
-			cache.init();
+			commonInitializer.onStart();
+			appInitializer.onStart();
 			LOG.info("Application initialization completed");
 		}if (event instanceof ContextClosedEvent) {
 			LOG.info("Closing application");
-
+			commonInitializer.onStop();
+			appInitializer.onStop();
 		}if (event instanceof ContextStartedEvent) {
 			LOG.info("ContextStartedEvent");
 		}if (event instanceof ContextStoppedEvent) {

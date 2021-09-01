@@ -43,11 +43,11 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.spydermama.api")) 
                 .paths(PathSelectors.any())
                 .build()
-                .useDefaultResponseMessages(false)
-                .additionalModels(typeResolver.resolve(ErrorResponse.class))
-                .globalResponses(HttpMethod.POST, 
-                        Arrays.asList(badrequestResponse())
-                			);
+                .useDefaultResponseMessages(false);
+               // .additionalModels(typeResolver.resolve(ErrorResponse.class))
+               // .globalResponses(HttpMethod.POST, 
+               //         Arrays.asList(badrequestResponse())
+               // 			);
                 			
     }
 

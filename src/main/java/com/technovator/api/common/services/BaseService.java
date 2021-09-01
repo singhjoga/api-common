@@ -19,6 +19,7 @@ public class BaseService{
 	}
 	
 	public String getApplicableLanguage(String userLang) {
+
 		String result;
 		if (StringUtils.isEmpty(userLang)) {
 			result=systemCache.getDefaultLanguageId();
@@ -34,5 +35,6 @@ public class BaseService{
 		}
 		
 		return result;
+		
 	}
 }
