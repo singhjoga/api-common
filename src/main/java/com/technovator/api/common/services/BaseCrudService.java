@@ -39,11 +39,11 @@ import com.technovator.api.common.auditlog.AuditableMain;
 import com.technovator.api.common.auditlog.AuditableReference;
 import com.technovator.api.common.cache.EntityCacheReference.EntityReferenceCacheEntry;
 import com.technovator.api.common.constants.Actions;
-import com.technovator.api.common.constants.OperationGroups;
 import com.technovator.api.common.constants.Actions.Crud;
-import com.technovator.api.common.controllers.RestResponseBuilder;
+import com.technovator.api.common.constants.OperationGroups;
 import com.technovator.api.common.controllers.RestResponse.ErrorResponse;
 import com.technovator.api.common.controllers.RestResponse.ValidationError;
+import com.technovator.api.common.controllers.RestResponseBuilder;
 import com.technovator.api.common.db.EntityManagerProvider;
 import com.technovator.api.common.domain.AbstractResource;
 import com.technovator.api.common.domain.AppObect;
@@ -60,8 +60,8 @@ import com.technovator.api.common.utils.EntityUtils;
 import com.thetechnovator.common.java.utils.DateUtil;
 import com.thetechnovator.common.java.utils.ReflectUtil;
 
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiModelProperty.AccessMode;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
 
 public abstract class BaseCrudService<T extends IdentifiableEntity<ID>, ID extends Serializable> extends BaseEntityService<T, ID> {
 	private static final Logger LOG = LoggerFactory.getLogger(BaseCrudService.class);
@@ -527,7 +527,7 @@ public abstract class BaseCrudService<T extends IdentifiableEntity<ID>, ID exten
 	}
 
 	private boolean isFieldReadOnly(Field field) {
-		Annotation annotation = field.getAnnotation(ApiModelProperty.class);
+		Annotation annotation = field.getAnnotation(Schema.class);
 		if (annotation != null) {
 			Boolean readOnly = (Boolean) ReflectUtil.getAnnotationFieldValue(annotation, "readOnly");
 			if (readOnly) {

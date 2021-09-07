@@ -14,17 +14,16 @@ import com.technovator.api.common.constants.RegEx;
 import com.technovator.api.common.constants.Views;
 import com.technovator.api.common.domain.IdentifiableEntity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity(name="REF_DATA")
-@ApiModel(description = "System reference data")
+@Schema(name="RefData", description = "System reference data")
 public class RefData implements IdentifiableEntity<String>{
 
 	@Id
 	@Column(name="CODE")
 	@Size(min = 3, max = 20, groups=OperationGroups.Always.class)
-	@ApiModelProperty(value = "Reference Code. Use as a Key other places for the references", position = 1, required=true)
+	@Schema(description = "Reference Code. Use as a Key other places for the references", required=true)
 	@Pattern(regexp = RegEx.NAME,groups=OperationGroups.Always.class)
 	@NotNull(groups=OperationGroups.Add.class)
 	@JsonView(value = {Views.List.class, Views.Add.class})
@@ -32,19 +31,19 @@ public class RefData implements IdentifiableEntity<String>{
 
 	@Column(name="TYPE_CODE")
 	@Size(min = 1, max = 50, groups=OperationGroups.Always.class)
-	@ApiModelProperty(value = "Reference type code. One of the 'UserRefData' type code in System reference data", position = 2, required=true)
+	@Schema(description = "Reference type code. One of the 'UserRefData' type code in System reference data", required=true)
 	@NotNull(groups=OperationGroups.Add.class)
 	@JsonView(value= {Views.Allways.class})
 	private String typeId;
 
 	@Column(name="IS_DISABLED")
-	@ApiModelProperty(value = "'true' if the entry is disabled i.e. not in use", position = 4,example = "false")
+	@Schema(description = "'true' if the entry is disabled i.e. not in use",example = "false")
 	@JsonView(value= {Views.Update.class,Views.List.class})
 	@LifecycleStatus	
 	private Boolean isDisabled;
 
 	@Column(name="DISPLAY_ORDER")
-	@ApiModelProperty(value = "Display order", position = 5,example = "0")
+	@Schema(description = "Display order",example = "0")
 	@JsonView(value= {Views.Update.class,Views.List.class})
 	private Integer displayOrder;
 	

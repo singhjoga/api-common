@@ -13,14 +13,14 @@ import com.technovator.api.common.annotations.Authorization;
 import com.technovator.api.common.constants.AppObjects;
 import com.technovator.api.common.controllers.BaseController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 @RestController
 @Authorization(resource = AppObjects.RefData)
-@RequestMapping({"/api/v1/refdata"})
-@Api(tags = {AppObjects.RefData})
+@RequestMapping({"v1/refdata"})
+@Tag(name = AppObjects.RefData)
 public class RefDataController extends BaseController{
 	private RefDataService service;
 	
@@ -30,7 +30,7 @@ public class RefDataController extends BaseController{
 	}
 
 	@RequestMapping(method=RequestMethod.GET,value="/{referenceType}")
-	@ApiOperation(value="Returns the list of a particular type of reference data")
+	@Operation(description="Returns the list of a particular type of reference data")
 	public ResponseEntity<List<RefDataValue>> getByReferenceType(@PathVariable String referenceType) {
 			return ResponseEntity.ok(service.findByReferenceType(referenceType, getUserLanguage()));
 	}

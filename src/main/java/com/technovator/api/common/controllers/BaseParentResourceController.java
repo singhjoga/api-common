@@ -17,7 +17,7 @@ import com.technovator.api.common.constants.Views;
 import com.technovator.api.common.domain.IdentifiableEntity;
 import com.technovator.api.common.services.BaseCrudService;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 
 @Authorization
 public abstract class BaseParentResourceController<T extends IdentifiableEntity<ID>, ID extends Serializable> extends BaseCrudController<T, ID> {
@@ -30,7 +30,7 @@ public abstract class BaseParentResourceController<T extends IdentifiableEntity<
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/history")
 	@Authorization(action = Actions.Crud.View)
 	@JsonView(value = Views.List.class)
-	@ApiOperation( value="Returns the change history for given resource id")
+	@Operation( description="Returns the change history for given resource id")
 	@ResponseBody
 	public ResponseEntity<List<AuditLog>> getHistory(@PathVariable ID id) {
 		List<AuditLog> body = service.getHistory(id);

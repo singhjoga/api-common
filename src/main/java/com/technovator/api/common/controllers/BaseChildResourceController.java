@@ -16,7 +16,7 @@ import com.technovator.api.common.constants.Views;
 import com.technovator.api.common.domain.IdentifiableEntity;
 import com.technovator.api.common.services.BaseChildEntityService;
 
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @Authorization
 public abstract class BaseChildResourceController<T extends IdentifiableEntity<ID>, ID extends Serializable, PARENT_ID extends Serializable> extends BaseCrudController<T, ID> {
@@ -31,7 +31,7 @@ public abstract class BaseChildResourceController<T extends IdentifiableEntity<I
 	@Authorization(action=Actions.Crud.View)
 	@JsonView(value=Views.List.class) 
 	public @ResponseBody ResponseEntity<List<T>> findAll(//
-			@ApiParam(value="ID of the parent object",example = "1", required = true) @RequestParam(value = "parentId", required = true) PARENT_ID parentId) {
+			@Parameter(description="ID of the parent object",example = "1", required = true) @RequestParam(value = "parentId", required = true) PARENT_ID parentId) {
 
 		List<T> body = service.findAll(parentId);
 		return ResponseEntity.ok(body);

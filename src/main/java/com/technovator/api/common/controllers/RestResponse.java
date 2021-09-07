@@ -6,10 +6,10 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.technovator.api.common.constants.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.technovator.api.common.constants.Views;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Common REST Response
@@ -42,7 +42,7 @@ public class RestResponse {
 		}
 		
 	}
-	@ApiModel("ErrorModel")
+	@Schema(name="ErrorModel")
 	public static class ErrorResponse extends MessageDetail{
 		@JsonView(value= {Views.Add.class,Views.Update.class,Views.List.class})
 		private List<ValidationError> errors=new ArrayList<>();		

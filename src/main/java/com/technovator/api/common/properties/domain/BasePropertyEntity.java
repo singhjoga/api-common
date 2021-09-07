@@ -10,19 +10,19 @@ import com.technovator.api.common.constants.OperationGroups;
 import com.technovator.api.common.constants.Views;
 import com.technovator.api.common.domain.AbstractResource;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @MappedSuperclass
 public abstract class BasePropertyEntity<T extends BasePropertyEntity<T>> extends AbstractResource{
 	@Column(name="NAME")
 	@Size(min = 1, max = 500)
 	@NotNull(groups=OperationGroups.Add.class)
-	@ApiModelProperty(value = "Property name", position = 1, required=true)
+	@Schema(description = "Property name", required=true)
 	@JsonView(value= {Views.Allways.class})
 	private String name;
 	
 	@Size(max = 1000)
-	@ApiModelProperty(value = "Long description", position = 2)
+	@Schema(description = "Long description")
 	@JsonView(value= {Views.Allways.class})
 	@Column(name="DESCRIPTION")
 	private String description;
@@ -30,7 +30,7 @@ public abstract class BasePropertyEntity<T extends BasePropertyEntity<T>> extend
 	@Column(name="TYPE_CODE")
 	@Size(min = 1, max = 20)
 	@NotNull(groups=OperationGroups.Add.class)
-	@ApiModelProperty(value = "Type of property e.g. STR, BOOL, NUM, UID, PWD etc.", position = 3, required=true, example="STR")
+	@Schema(description = "Type of property e.g. STR, BOOL, NUM, UID, PWD etc.", required=true, example="STR")
 	@JsonView(value= {Views.Allways.class})	
 	private String typeCode; 
 	
