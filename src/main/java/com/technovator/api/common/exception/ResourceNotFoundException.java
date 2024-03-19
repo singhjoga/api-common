@@ -1,7 +1,5 @@
 package com.technovator.api.common.exception;
 
-import com.thetechnovator.common.java.exceptions.TechnicalException;
-
 public class ResourceNotFoundException extends TechnicalException{
 
 	private static final long serialVersionUID = -12069870686023303L;
@@ -10,7 +8,7 @@ public class ResourceNotFoundException extends TechnicalException{
 		this(resourceName, id.toString());
 	}
 	public ResourceNotFoundException(String resourceName, String id) {
-		super("Resource not found "+resourceName+" for id "+id);
+		super(String.format("Resource '%s' not found for id '%s'", resourceName, id));
 	}
 	public ResourceNotFoundException(String msg) {
 		super(msg);

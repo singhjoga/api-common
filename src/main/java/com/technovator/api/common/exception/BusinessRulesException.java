@@ -1,7 +1,5 @@
 package com.technovator.api.common.exception;
 
-import com.thetechnovator.common.java.exceptions.TechnicalException;
-
 public class BusinessRulesException extends TechnicalException{
 
 	private static final long serialVersionUID = -2006019059463060143L;

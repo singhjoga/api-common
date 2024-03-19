@@ -7,6 +7,7 @@ import java.util.StringJoiner;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,12 +41,18 @@ public class EntityUtils {
 		return n.longValue();
 	}
 	public static String getEntityTableName(Class<?> entity) {
-		String tableName=entity.getName();
-		Entity e = entity.getAnnotation(Entity.class);
-		if (e != null && StringUtils.isNotEmpty(e.name())) {
-			tableName=e.name();
+		String tableName;
+		Table t = entity.getAnnotation(Table.class);
+		if (t != null) {
+			tableName = t.name();
+		}else {
+			tableName=entity.getSimpleName();
+			Entity e = entity.getAnnotation(Entity.class);
+			if (e != null && StringUtils.isNotEmpty(e.name())) {
+				tableName=e.name();
+			}		
 		}
-		
+
 		return tableName;
 	}
 	public static String getEntityColumnName(Field field) {

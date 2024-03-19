@@ -13,9 +13,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.data.util.AnnotatedTypeScanner;
 
 import com.technovator.api.common.annotations.EntityReference;
-import com.technovator.api.common.annotations.SystemReferenceData;
 import com.technovator.api.common.constants.Constants;
-import com.technovator.api.common.refdata.RefData;
 
 public class EntityCacheReference {
 	private Map<Class<?>, List<EntityReferenceCacheEntry>> entityReferences=new HashMap<>();
@@ -28,18 +26,6 @@ public class EntityCacheReference {
 			List<Field> fields = FieldUtils.getFieldsListWithAnnotation(cls, EntityReference.class);
 			for (Field field: fields) {
 				Class<?> refEntity = field.getAnnotation(EntityReference.class).value();
-				addEntityRefCache(refEntity, cls, field);
-			}
-			/*
-			fields = FieldUtils.getFieldsListWithAnnotation(cls, UserReferenceData.class);
-			for (Field field: fields) {
-				Class<?> refEntity = RefData.class;
-				addEntityRefCache(refEntity,cls , field);
-			}
-			*/
-			fields = FieldUtils.getFieldsListWithAnnotation(cls, SystemReferenceData.class);
-			for (Field field: fields) {
-				Class<?> refEntity = RefData.class;
 				addEntityRefCache(refEntity, cls, field);
 			}
 		}

@@ -2,8 +2,6 @@ package com.technovator.api.common.exception;
 
 import java.util.List;
 
-import com.thetechnovator.common.java.exceptions.TechnicalException;
-
 public class BadRequestException extends TechnicalException{
 	private static final long serialVersionUID = -871593672052845759L;
 

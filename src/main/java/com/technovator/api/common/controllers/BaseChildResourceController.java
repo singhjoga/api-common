@@ -10,15 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.technovator.api.common.annotations.Authorization;
-import com.technovator.api.common.constants.Actions;
 import com.technovator.api.common.constants.Views;
 import com.technovator.api.common.domain.IdentifiableEntity;
 import com.technovator.api.common.services.BaseChildEntityService;
 
 import io.swagger.v3.oas.annotations.Parameter;
 
-@Authorization
+
 public abstract class BaseChildResourceController<T extends IdentifiableEntity<ID>, ID extends Serializable, PARENT_ID extends Serializable> extends BaseCrudController<T, ID> {
 	private BaseChildEntityService<T, ID, PARENT_ID> service;
 
@@ -28,7 +26,6 @@ public abstract class BaseChildResourceController<T extends IdentifiableEntity<I
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	@Authorization(action=Actions.Crud.View)
 	@JsonView(value=Views.List.class) 
 	public @ResponseBody ResponseEntity<List<T>> findAll(//
 			@Parameter(description="ID of the parent object",example = "1", required = true) @RequestParam(value = "parentId", required = true) PARENT_ID parentId) {

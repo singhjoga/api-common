@@ -6,11 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.technovator.api.common.cache.EntityReferenceCache;
-import com.technovator.api.common.domain.IdentifiableEntity;
 import com.technovator.api.common.exception.ResourceNotFoundException;
 import com.technovator.api.common.repos.BaseRepository;
 
-public class BaseEntityService<T extends IdentifiableEntity<ID>, ID extends Serializable> extends BaseService {
+public class BaseEntityService<T , ID extends Serializable> extends BaseService {
 
 	protected BaseRepository<T, ID> repo;
 	protected Class<T> entityClass;
@@ -27,9 +26,9 @@ public class BaseEntityService<T extends IdentifiableEntity<ID>, ID extends Seri
 		return getById(id, false);
 	}
 
-	public T getById(ID id, boolean optionaö) {
+	public T getById(ID id, boolean optional) {
 		T obj = repo.findById(id).orElse(null);
-		if (obj == null && !optionaö) {
+		if (obj == null && !optional) {
 			throw new ResourceNotFoundException(entityClass.getSimpleName(), id.toString());
 		}
 		return obj;

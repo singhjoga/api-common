@@ -5,6 +5,9 @@ abstract public class Views {
 	public static interface Add extends Allways{
 		
 	}
+	public static interface Overwrite extends Allways{
+		
+	}
 	public static interface Update extends Allways{
 		
 	}

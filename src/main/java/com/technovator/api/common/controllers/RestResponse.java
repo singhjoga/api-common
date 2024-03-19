@@ -1,13 +1,20 @@
 package com.technovator.api.common.controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.validation.ConstraintViolation;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.technovator.api.common.constants.Views;
+import com.technovator.api.common.controllers.RestResponse.ErrorResponse;
+import com.technovator.api.common.controllers.RestResponse.ValidationError;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -95,6 +102,36 @@ public class RestResponse {
 		public void setField(String field) {
 			this.field = field;
 		}
+		public static List<ValidationError> from(List<? extends Set<? extends ConstraintViolation<?>>> violations) {
+			List<ValidationError> errors = new ArrayList<RestResponse.ValidationError>();
+			int i=0;
+			for (Set<? extends ConstraintViolation<?>> s: violations) {
+				from(errors,s, i);
+			}
+			
+			return errors;
+		}
+		public static List<ValidationError> from(Set<? extends ConstraintViolation<?> > violations) {
+			List<ValidationError> errors = new ArrayList<RestResponse.ValidationError>();
+			return from (errors, violations, null);
+		}
+		public static List<ValidationError> from(List<ValidationError> errors, Set<? extends ConstraintViolation<?> > violations, Integer index) {
+			for (ConstraintViolation<?> violation : violations) {
+				addError(errors,violation,index);
+			}
+			return errors;
+		}
+		private static void addError(List<ValidationError> errors, ConstraintViolation<?> violation, Integer index) {
+			String field=StringUtils.substringAfterLast(violation.getPropertyPath().toString(), ".");
+			if (StringUtils.isEmpty(field)) {
+				field=violation.getPropertyPath().toString();
+			}
+			if (index != null) {
+				field=field+"."+index;
+			}
+			String errorCode=violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName();
+			errors.add(new ValidationError(field, violation.getMessage(), errorCode));
+		}
 	}
 
 	public static class MessageDetail {
@@ -170,5 +207,23 @@ public class RestResponse {
 			this.warning = warning;
 		}
 		
+	}
+	public static class BulkAddUpdateResponse{
+		@JsonView(value= {Views.Add.class,Views.Update.class,Views.List.class})
+		private List<String> ids;
+
+		public BulkAddUpdateResponse(List<String> ids) {
+			super();
+			this.ids = ids;
+		}
+
+		public List<String> getIds() {
+			return ids;
+		}
+
+		public void setIds(List<String> ids) {
+			this.ids = ids;
+		}
+
 	}
 }

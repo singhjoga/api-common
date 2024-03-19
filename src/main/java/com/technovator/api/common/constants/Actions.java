@@ -7,5 +7,6 @@ public interface Actions {
 		String Update="Update";
 		String Delete="Delete";
 		String View="View";
+		String Overwrite="Overwrite";
 	}
 }

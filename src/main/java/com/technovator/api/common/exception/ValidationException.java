@@ -1,9 +1,12 @@
 package com.technovator.api.common.exception;
 
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.validation.ConstraintViolation;
+
+import com.technovator.api.common.controllers.RestResponse.ValidationError;
 
 /**
  * Validation exceptions
@@ -11,16 +14,45 @@ import jakarta.validation.ConstraintViolation;
  * @author JogaSingh
  *
  */
-public class ValidationException extends RuntimeException{
+public class ValidationException extends BusinessRulesException {
 	private static final long serialVersionUID = 1L;
-	private Set<ConstraintViolation<?>> violations;
+	private List<ValidationError> errors;
 
-	public ValidationException(Set<? extends ConstraintViolation<?>> violations) {
-		super();
-		this.violations =new HashSet<>(violations);
-	}
-	public Set<ConstraintViolation<?>> getViolations() {
-		return violations;
+	public ValidationException(String field, String errorCode, String message) {
+		this(Arrays.asList(new ValidationError(field, message, errorCode)));
 	}
 	
+	public ValidationException(List<ValidationError> errors) {
+		super(null,CommonErrorCodes.VALIDATION_ERROR);
+		this.errors = errors;
+	}
+
+	public ValidationException(Set<? extends ConstraintViolation<?>> violations) {
+		this(ValidationError.from(violations));
+	}
+
+	public List<ValidationError> getErrors() {
+		return errors;
+	}
+	@Override
+	public String getMessage() {
+		return toString();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		for (ValidationError error : this.errors) {
+			if (sb.length() > 0) {
+				sb.append(System.lineSeparator());
+			}
+			sb.append("field=").append(error.getField()).append(", message=").append(error.getMessage())
+					.append(", errorCode=").append(error.getCode());
+
+		}
+
+		return sb.toString();
+	}
+
 }

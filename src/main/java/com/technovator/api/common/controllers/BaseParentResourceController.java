@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.technovator.api.common.annotations.Authorization;
 import com.technovator.api.common.auditlog.AuditLog;
-import com.technovator.api.common.constants.Actions;
 import com.technovator.api.common.constants.Views;
 import com.technovator.api.common.domain.IdentifiableEntity;
 import com.technovator.api.common.services.BaseCrudService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
-@Authorization
-public abstract class BaseParentResourceController<T extends IdentifiableEntity<ID>, ID extends Serializable> extends BaseCrudController<T, ID> {
+public abstract class BaseParentResourceController<T extends IdentifiableEntity<ID>, ID extends Serializable> extends BaseCudController<T, ID> {
 	private BaseCrudService<T, ID> service;
 	public BaseParentResourceController(BaseCrudService<T, ID> service) {
 		super(service);
@@ -28,7 +25,6 @@ public abstract class BaseParentResourceController<T extends IdentifiableEntity<
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/history")
-	@Authorization(action = Actions.Crud.View)
 	@JsonView(value = Views.List.class)
 	@Operation( description="Returns the change history for given resource id")
 	@ResponseBody

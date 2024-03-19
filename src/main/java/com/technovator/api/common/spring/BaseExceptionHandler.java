@@ -1,4 +1,4 @@
-package com.technovator.api.common.exception;
+package com.technovator.api.common.spring;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +21,20 @@ import com.technovator.api.common.controllers.RestResponse;
 import com.technovator.api.common.controllers.RestResponseBuilder;
 import com.technovator.api.common.controllers.RestResponse.ErrorResponse;
 import com.technovator.api.common.controllers.RestResponse.ValidationError;
+import com.technovator.api.common.exception.AccessDeniedException;
+import com.technovator.api.common.exception.AuthorizationException;
+import com.technovator.api.common.exception.BadRequestException;
+import com.technovator.api.common.exception.BusinessRulesException;
+import com.technovator.api.common.exception.CommonErrorCodes;
+import com.technovator.api.common.exception.InvalidRequestException;
+import com.technovator.api.common.exception.ResourceNotFoundException;
+import com.technovator.api.common.exception.ResponseExceptionHandler;
+import com.technovator.api.common.exception.TechnicalException;
+import com.technovator.api.common.exception.ValidationException;
 
-//@RestControllerAdvice
-//@Component
-public class ResponseExceptionHandler {
+
+public abstract class BaseExceptionHandler {
 	private static final Logger LOG = LoggerFactory.getLogger(ResponseExceptionHandler.class);
-	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ErrorResponse handleResourceNotFound(ResourceNotFoundException e) {
@@ -100,7 +108,7 @@ public class ResponseExceptionHandler {
 		ErrorResponse resp = new ErrorResponse();
 		resp.setErrors(e.getErrors());
 		resp.setMessage("Validation error");
-		
+		resp.setCode(e.getErrorCode());
 		return resp;
 	}
 	@ExceptionHandler(ConstraintViolationException.class)
@@ -108,7 +116,7 @@ public class ResponseExceptionHandler {
 	public ErrorResponse onConstraintValidationException(ConstraintViolationException e) {
 		ErrorResponse resp = createConstraintViolationsResponse(e.getConstraintViolations());
 		resp.setMessage("Constration violation");
-		
+		resp.setCode(CommonErrorCodes.DATABASE_CONSTRAINT_ERROR);
 		return resp;
 	}
 	@ExceptionHandler(MissingServletRequestParameterException.class)
@@ -116,7 +124,6 @@ public class ResponseExceptionHandler {
 	public ErrorResponse onConstraintValidationException(MissingServletRequestParameterException e) {
 		return RestResponseBuilder.errorResponse(e.getMessage(), CommonErrorCodes.INTERNAL_ERROR);
 	}	
-	
 	private ErrorResponse createConstraintViolationsResponse(Set<ConstraintViolation<?> > violations) {
 		ErrorResponse resp = new ErrorResponse();
 		for (ConstraintViolation<?> violation : violations) {
@@ -134,5 +141,6 @@ public class ResponseExceptionHandler {
 		}
 		String errorCode=violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName();
 		resp.getErrors().add(new ValidationError(field, violation.getMessage(), errorCode));
-	}
+	}   
+    
 }

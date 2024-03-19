@@ -15,10 +15,10 @@ import com.technovator.api.common.utils.CommonUtil;
 public class AuditLogService extends BaseService{
 	@Autowired
 	private AuditLogRepository repo;
-	public String add(String action, AuditableMain<?> auditable, String details) {
-		return add(action,auditable, details, null);
+	public String add(String action, AuditableMain auditable, Object id, String details) {
+		return add(action,auditable, id, details, null);
 	}
-	public String add(String action, AuditableMain<?> auditable, String details, String filter) {
+	public String add(String action, AuditableMain auditable, Object id, String details, String filter) {
 		if (StringUtils.isEmpty(details)) {
 			return null;
 		}
@@ -27,8 +27,8 @@ public class AuditLogService extends BaseService{
 		obj.setAction(action);
 		obj.setDate(new Date());
 		obj.setDetails(details);
-		obj.setObjectType(auditable.getAppObjectType());
-		obj.setObjectId(auditable.getId().toString());
+		obj.setObjectType(auditable.getClass().getSimpleName());
+		obj.setObjectId(id.toString());
 		obj.setObjectName(auditable.getName());
 		obj.setUser(getLoggedUser());
 		obj.setFilterValue(filter);
@@ -40,11 +40,11 @@ public class AuditLogService extends BaseService{
 	public List<AuditLog> find(String entity, String entityId) {
 		return repo.findByObjectTypeAndObjectIdOrderByDateDesc(entity, entityId);
 	}
-	public List<AuditLog> find(AuditableMain<?> auditable) {
-		return find(auditable,null);
+	public List<AuditLog> find(AuditableMain auditable, Object id) {
+		return find(auditable,id, null);
 	}
-	public List<AuditLog> find(AuditableMain<?> auditable, List<AuditLog> childAuditables) {
-		List<AuditLog> history = repo.findByObjectTypeAndObjectIdOrderByDateDesc(auditable.getAppObjectType(), auditable.getId().toString());
+	public List<AuditLog> find(AuditableMain auditable, Object id, List<AuditLog> childAuditables) {
+		List<AuditLog> history = repo.findByObjectTypeAndObjectIdOrderByDateDesc(auditable.getClass().getSimpleName(), id.toString());
 	/*	addToResult(history, auditable);
 		if (childAuditables != null && !childAuditables.isEmpty()) {
 			Comparator<ChangeHistory> comp = Comparator.comparing(ChangeHistory::getDate).reversed();
@@ -55,7 +55,7 @@ public class AuditLogService extends BaseService{
 		return history; 
 	}
 	
-	private void addToResult(List<AuditLog> history, AuditableMain<?> auditable) {
+	private void addToResult(List<AuditLog> history, AuditableMain auditable, Object id) {
 		//add the added record, which is not part of the history to preserve space
 		AuditLog add = new AuditLog();
 		if (auditable instanceof AbstractResource) { //this the case always
@@ -68,9 +68,9 @@ public class AuditLogService extends BaseService{
 		}
 		add.setAction("Add");
 		add.setDetails("Added");
-		add.setObjectId(auditable.getId().toString());
+		add.setObjectId(id.toString());
 		add.setObjectName(auditable.getName());
-		add.setObjectType(auditable.getAppObjectType());
+		add.setObjectType(auditable.getClass().getSimpleName());
 		history.add(add);
 	}
 }

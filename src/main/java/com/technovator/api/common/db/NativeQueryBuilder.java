@@ -14,8 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.technovator.api.common.context.SpringContext;
-
 public class NativeQueryBuilder {
 	private static final Logger LOG = LoggerFactory.getLogger(NativeQueryBuilder.class);	
 	private List<Object> params = new ArrayList<>();
@@ -91,9 +89,8 @@ public class NativeQueryBuilder {
 	}
 	public Query buildNativeQuery(EntityManager em, Class<?> resultClass) {
 		String strSql = getFinalSql();
-		if (SpringContext.isDebug()) {
-			LOG.info(strSql.toString());
-		}
+		LOG.debug(strSql.toString());
+	
 		Query query;
 		if (resultClass==null) {
 			query = em.createNativeQuery(strSql);

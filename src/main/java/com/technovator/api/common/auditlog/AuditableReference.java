@@ -7,10 +7,10 @@ public interface AuditableReference<PARENT_ID, REF_ID> extends AppObect{
 	@JsonIgnore
 	PARENT_ID getParentId();
 	@JsonIgnore
-	Class<? extends AuditableMain<?>> getParentEntity();
+	Class<? extends AuditableMain> getParentEntity();
 	
 	@JsonIgnore
 	REF_ID getReferenceId();
 	@JsonIgnore
-	Class<? extends AuditableMain<?>> getReferenceEntity();
+	Class<? extends AuditableMain> getReferenceEntity();
 }

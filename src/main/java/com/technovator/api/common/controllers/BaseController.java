@@ -2,16 +2,17 @@ package com.technovator.api.common.controllers;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.technovator.api.common.context.Context;
 import com.technovator.api.common.controllers.RestResponse.AddResponse;
 import com.technovator.api.common.controllers.RestResponse.BulkOperationResponse;
 import com.technovator.api.common.exception.BadRequestException;
-import com.thetechnovator.common.java.utils.DateUtil;
+import com.technovator.api.common.utils.DateUtils;
 
 public abstract class BaseController {
 	public BaseController() {
@@ -28,12 +29,10 @@ public abstract class BaseController {
 	protected Date toDateParam(String dateStr, String paramName) {
 		if (dateStr==null) return null;
 		//first convert using json format
-		Date dt = DateUtil.toDateFromJsonFormat(dateStr);
+		Date dt = DateUtils.toDateFromJsonFormat(dateStr);
+
 		if (dt == null) {
-			dt = DateUtil.toDateFromGermanFormat(dateStr);
-		}
-		if (dt == null) {
-			String msg = String.format("Parameter '%s' value '%s' is not in '%s' or '%s' format", paramName,dateStr,DateUtil.JSON_DATE, DateUtil.GERMAN_DATE);
+			String msg = String.format("Parameter '%s' value '%s' is not in '%s' format", paramName,dateStr,DateUtils.JSON_DATE);
 			throw new BadRequestException(msg);
 		}
 		
@@ -42,12 +41,10 @@ public abstract class BaseController {
 	protected Date toDateTimeParam(String dateStr, String paramName) {
 		if (dateStr==null) return null;
 		//first convert using json format
-		Date dt = DateUtil.toDateTimeFromJsonFormat(dateStr);
+		Date dt = DateUtils.toDateTimeFromJsonFormat(dateStr);
+
 		if (dt == null) {
-			dt = DateUtil.toDateTimeFromGermanFormat(dateStr);
-		}
-		if (dt == null) {
-			String msg = String.format("Parameter '%s' value '%s' is not in '%s' or '%s' format", paramName,dateStr,DateUtil.JSON_DATE_TIME, DateUtil.GERMAN_DATE_TIME);
+			String msg = String.format("Parameter '%s' value '%s' is not in '%s' format", paramName,dateStr,DateUtils.JSON_DATE_TIME);
 			throw new BadRequestException(msg);
 		}
 		
@@ -67,16 +64,9 @@ public abstract class BaseController {
 	protected ResponseEntity<BulkOperationResponse> bulkOperationResponse(int affectedItems) {
 		return ResponseEntity.ok(new BulkOperationResponse(affectedItems));
 	}
-	protected String getUserLanguage() {
-		return Context.getInstance().getUserLanguage();
+	protected ResponseEntity<RestResponse.BulkAddUpdateResponse> bulkAddUpdateResponse(List<?> ids) {
+		List<String> strIds = new ArrayList<>();
+		ids.forEach(e-> strIds.add(e.toString()));
+		return ResponseEntity.ok(new RestResponse.BulkAddUpdateResponse(strIds));
 	}
-	/*
-	protected void authorize(String resource, String action) {
-		authService.authorize(resource, action);
-	}
-	@Autowired
-	public final void setAuthService(AuthService authService) {
-		this.authService=authService;
-	}
-	*/
 }
