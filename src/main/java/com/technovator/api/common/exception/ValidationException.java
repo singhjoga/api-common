@@ -3,7 +3,7 @@ package com.technovator.api.common.exception;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * Validation exceptions

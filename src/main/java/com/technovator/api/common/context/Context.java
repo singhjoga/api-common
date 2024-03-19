@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Locale.LanguageRange;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

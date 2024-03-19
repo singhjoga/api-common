@@ -1,8 +1,8 @@
 package com.technovator.api.common.db;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

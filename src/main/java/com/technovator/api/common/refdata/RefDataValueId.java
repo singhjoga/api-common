@@ -2,7 +2,7 @@ package com.technovator.api.common.refdata;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 
 public class RefDataValueId implements Serializable{
 

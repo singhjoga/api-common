@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 
-import javax.tools.SimpleJavaFileObject;
+import jakarta.tools.SimpleJavaFileObject;
 
 public class JavaClassObject extends SimpleJavaFileObject {
     private ByteArrayOutputStream outputStream;

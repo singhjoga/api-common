@@ -2,9 +2,9 @@ package com.technovator.api.common.validation;
 
 import java.lang.annotation.Annotation;
 
-import javax.persistence.EntityManager;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.persistence.EntityManager;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import com.technovator.api.common.db.EntityManagerProvider;
 import com.technovator.api.common.domain.IdentifiableEntity;

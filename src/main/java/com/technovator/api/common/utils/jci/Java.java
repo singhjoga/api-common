@@ -3,14 +3,14 @@ package com.technovator.api.common.utils.jci;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.tools.DiagnosticCollector;
-import javax.tools.FileObject;
-import javax.tools.ForwardingJavaFileManager;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileManager;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
+import jakarta.tools.DiagnosticCollector;
+import jakarta.tools.FileObject;
+import jakarta.tools.ForwardingJavaFileManager;
+import jakarta.tools.JavaCompiler;
+import jakarta.tools.JavaFileManager;
+import jakarta.tools.JavaFileObject;
+import jakarta.tools.StandardJavaFileManager;
+import jakarta.tools.ToolProvider;
 
 import com.thetechnovator.common.java.exceptions.BusinessException;
 

@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,7 +35,7 @@ public class EntityUtils {
 			qb.appendWhere(value, fieldName, "=");
 			i++;
 	    }
-		javax.persistence.Query query = qb.buildNativeQuery(EntityManagerProvider.getEntityManager());
+		jakarta.persistence.Query query = qb.buildNativeQuery(EntityManagerProvider.getEntityManager());
 		Number n = (Number)query.getSingleResult();
 		return n.longValue();
 	}

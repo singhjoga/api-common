@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;

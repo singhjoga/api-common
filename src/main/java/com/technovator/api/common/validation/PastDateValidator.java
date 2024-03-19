@@ -3,8 +3,8 @@ package com.technovator.api.common.validation;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import com.technovator.api.common.annotations.PastDate;
 

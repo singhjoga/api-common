@@ -3,7 +3,7 @@ package com.technovator.api.common.utils.jci;
 import java.io.IOException;
 import java.net.URI;
 
-import javax.tools.SimpleJavaFileObject;
+import jakarta.tools.SimpleJavaFileObject;
 
 public class JavaSourceObject extends SimpleJavaFileObject {
     private final String source;

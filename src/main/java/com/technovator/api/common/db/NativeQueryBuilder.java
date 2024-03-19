@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TemporalType;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -139,7 +139,7 @@ public class NativeQueryBuilder {
 		return sb.toString();
 	}
 	public <T> List<T> getResultList(EntityManager em, Class<?> resultClass) {
-		javax.persistence.Query query = buildNativeQuery(EntityManagerProvider.getEntityManager(), resultClass);
+		jakarta.persistence.Query query = buildNativeQuery(EntityManagerProvider.getEntityManager(), resultClass);
 		List<T> result = query.getResultList();
 		
 		return result;
