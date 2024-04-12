@@ -17,19 +17,13 @@ import com.thetechnovator.api.common.services.BaseChildEntityService;
 import io.swagger.v3.oas.annotations.Parameter;
 
 
-public abstract class BaseChildResourceController<T extends IdentifiableEntity<ID>, ID extends Serializable, PARENT_ID extends Serializable> extends BaseCrudController<T, ID> {
-	private BaseChildEntityService<T, ID, PARENT_ID> service;
-
-	public BaseChildResourceController(BaseChildEntityService<T, ID, PARENT_ID> service) {
-		super(service);
-		this.service = service;
-	}
+public interface ReadAllChild<T extends IdentifiableEntity<ID>, ID extends Serializable, PARENT_ID extends Serializable> extends BaseController<T, ID> {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@JsonView(value=Views.List.class) 
-	public @ResponseBody ResponseEntity<List<T>> findAll(//
+	default @ResponseBody ResponseEntity<List<T>> findAll(//
 			@Parameter(description="ID of the parent object",example = "1", required = true) @RequestParam(value = "parentId", required = true) PARENT_ID parentId) {
-
+		BaseChildEntityService<T,ID, PARENT_ID> service = (BaseChildEntityService<T,ID, PARENT_ID>)getService();
 		List<T> body = service.findAll(parentId);
 		return ResponseEntity.ok(body);
 	}

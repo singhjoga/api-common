@@ -11,22 +11,21 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.thetechnovator.api.common.controllers.RestResponse.AddResponse;
 import com.thetechnovator.api.common.controllers.RestResponse.BulkOperationResponse;
+import com.thetechnovator.api.common.domain.IdentifiableEntity;
 import com.thetechnovator.api.common.exception.BadRequestException;
+import com.thetechnovator.api.common.services.BaseCrudService;
 import com.thetechnovator.api.common.utils.DateUtils;
 
-public abstract class BaseController {
-	public BaseController() {
-		super();
-	}
+public interface BaseController<T extends IdentifiableEntity<ID>, ID extends Serializable> {
 
-	protected URI getCurrentURI() {
+	default URI getCurrentURI() {
 		return ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 	}
 
-	protected URI getCurrentURI(Serializable id) {
+	default URI getCurrentURI(Serializable id) {
 		return ServletUriComponentsBuilder.fromCurrentRequest().pathSegment(id.toString()). build().toUri();
 	}
-	protected Date toDateParam(String dateStr, String paramName) {
+	default Date toDateParam(String dateStr, String paramName) {
 		if (dateStr==null) return null;
 		//first convert using json format
 		Date dt = DateUtils.toDateFromJsonFormat(dateStr);
@@ -38,7 +37,7 @@ public abstract class BaseController {
 		
 		return dt;
 	}
-	protected Date toDateTimeParam(String dateStr, String paramName) {
+	default Date toDateTimeParam(String dateStr, String paramName) {
 		if (dateStr==null) return null;
 		//first convert using json format
 		Date dt = DateUtils.toDateTimeFromJsonFormat(dateStr);
@@ -51,22 +50,23 @@ public abstract class BaseController {
 		return dt;
 	}
 
-	protected ResponseEntity<AddResponse> addRestResponse(Long id) {
+	default ResponseEntity<AddResponse> addRestResponse(Long id) {
 		return addRestResponse(id.toString());
 	}
-	protected ResponseEntity<AddResponse> addRestResponse(String id) {
+	default ResponseEntity<AddResponse> addRestResponse(String id) {
 		URI resUrl = getCurrentURI(id);
 		return ResponseEntity.created(resUrl).body(RestResponseBuilder.addResponse(id, resUrl.toString()));
 	}
-	protected ResponseEntity<Void> okResponse() {
+	default ResponseEntity<Void> okResponse() {
 		return ResponseEntity.ok().build();
 	}
-	protected ResponseEntity<BulkOperationResponse> bulkOperationResponse(int affectedItems) {
+	default ResponseEntity<BulkOperationResponse> bulkOperationResponse(int affectedItems) {
 		return ResponseEntity.ok(new BulkOperationResponse(affectedItems));
 	}
-	protected ResponseEntity<RestResponse.BulkAddUpdateResponse> bulkAddUpdateResponse(List<?> ids) {
+	default ResponseEntity<RestResponse.BulkAddUpdateResponse> bulkAddUpdateResponse(List<?> ids) {
 		List<String> strIds = new ArrayList<>();
 		ids.forEach(e-> strIds.add(e.toString()));
 		return ResponseEntity.ok(new RestResponse.BulkAddUpdateResponse(strIds));
 	}
+	BaseCrudService<T, ID> getService();
 }

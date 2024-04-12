@@ -143,6 +143,9 @@ public abstract class BaseCrudService<T, ID extends Serializable> extends BaseEn
 					key = "id";
 				} else {
 					key = ((UniqueKey) uk).value();
+					if (StringUtils.isBlank(key)) {
+						key = field.getName();
+					}
 				}
 				List<Field> keyFields = uniqueKeyFields.get(key);
 				if (keyFields == null) {
@@ -172,6 +175,7 @@ public abstract class BaseCrudService<T, ID extends Serializable> extends BaseEn
 
 	@Transactional(readOnly = false)
 	public void overwrite(ID id, T obj) {
+		setId(obj, id);
 		validate(obj, Operations.Overwrite.class);
 		overwriteInternal(id, obj);
 	}
@@ -282,6 +286,7 @@ public abstract class BaseCrudService<T, ID extends Serializable> extends BaseEn
 
 	@Transactional(readOnly = false)
 	public void update(ID id, T obj) {
+		setId(obj, id);
 		validate(obj, Operations.Update.class);
 		updateInternal(Arrays.asList(obj));
 	}
@@ -580,7 +585,7 @@ public abstract class BaseCrudService<T, ID extends Serializable> extends BaseEn
 				continue;
 			}
 			setAuditData(saved, Operations.Update.class);
-			saveList.add(obj);
+			saveList.add(saved);
 			copyList.add(copy);
 			changeList.add(changes);
 		}

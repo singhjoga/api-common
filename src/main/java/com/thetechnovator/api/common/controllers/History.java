@@ -13,23 +13,19 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.thetechnovator.api.common.auditlog.AuditLog;
 import com.thetechnovator.api.common.constants.Views;
 import com.thetechnovator.api.common.domain.IdentifiableEntity;
+import com.thetechnovator.api.common.services.BaseChildEntityService;
 import com.thetechnovator.api.common.services.BaseCrudService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
-public abstract class BaseParentResourceController<T extends IdentifiableEntity<ID>, ID extends Serializable> extends BaseCrudController<T, ID> {
-	private BaseCrudService<T, ID> service;
-	public BaseParentResourceController(BaseCrudService<T, ID> service) {
-		super(service);
-		this.service = service;
-	}
+public interface History<T extends IdentifiableEntity<ID>, ID extends Serializable> extends CrudController<T, ID> {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/history")
 	@JsonView(value = Views.List.class)
 	@Operation( description="Returns the change history for given resource id")
 	@ResponseBody
-	public ResponseEntity<List<AuditLog>> getHistory(@PathVariable ID id) {
-		List<AuditLog> body = service.getHistory(id);
+	default ResponseEntity<List<AuditLog>> getHistory(@PathVariable ID id) {
+		List<AuditLog> body = getService().getHistory(id);
 		return ResponseEntity.ok(body);
 	}
 }
